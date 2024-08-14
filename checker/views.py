@@ -4,6 +4,16 @@ import requests
 from bs4 import BeautifulSoup
 from django.utils.translation import gettext as _
 
+# Функция для стандартизации URL
+def normalize_url(url):
+    parsed_url = urlparse(url)
+    if not parsed_url.scheme:
+        # Если протокол отсутствует, добавляем "https://"
+        url = 'https://' + url
+    elif parsed_url.scheme not in ['http', 'https']:
+        return None  # Неподдерживаемый протокол
+    return url
+
 def check_status(response):
     status_code = response.status_code
     
@@ -241,6 +251,7 @@ def check_h1(soup, title):
     }
 
 
+# Основная функция анализа SEO
 def seo_analysis(url):
     try:
         response = requests.get(url, allow_redirects=False, timeout=10)
@@ -265,18 +276,7 @@ def seo_analysis(url):
         'h1_data': h1_data,
     }
 
-from urllib.parse import quote, unquote
-
-# Функция для стандартизации URL
-def normalize_url(url):
-    parsed_url = urlparse(url)
-    if not parsed_url.scheme:
-        # Если протокол отсутствует, добавляем "https://"
-        url = 'https://' + url
-    elif parsed_url.scheme not in ['http', 'https']:
-        return None  # Неподдерживаемый протокол
-    return url
-
+# Основная функция обработки запросов на индексную страницу
 def index(request, url=None):
     if request.method == 'POST':
         url = request.POST.get('url')
@@ -302,6 +302,7 @@ def index(request, url=None):
 
     return render(request, 'checker/index.html')
 
+# Функция обработки запросов на анализ URL
 def url_analysis(request, url):
     # Декодируем URL и проводим анализ
     decoded_url = unquote(url)
