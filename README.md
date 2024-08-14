@@ -35,8 +35,9 @@ cd seocheckerhub
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
 
-Visit https://seocheckerhub.com in your browser to start using the application.
+## Visit https://seocheckerhub.com in your browser to start using the application.
 
 License
 This project is licensed under the MIT License.
