@@ -265,12 +265,14 @@ def seo_analysis(url):
         'h1_data': h1_data,
     }
 
+from urllib.parse import quote, unquote
+
 def index(request, url=None):
     if request.method == 'POST':
         url = request.POST.get('url')
         if url:
             # Кодируем URL и перенаправляем на новый путь
-            quoted_url = quote(url)
+            quoted_url = quote(url, safe=':/')
             return redirect('url_analysis', url=quoted_url)
         else:
             results = {'error': _('Please enter a URL.')}
@@ -283,6 +285,7 @@ def index(request, url=None):
         return render(request, 'checker/index.html', {'results': results, 'url': decoded_url})
 
     return render(request, 'checker/index.html')
+
 
 def url_analysis(request, url):
     # Декодируем URL и проводим анализ
