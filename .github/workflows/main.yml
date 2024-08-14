@@ -37,4 +37,5 @@ jobs:
             sudo chown -R www-data:www-data /var/www/html/seocheckerhub.com
             rm -rf /var/www/html/seocheckerhub.com/.git
             rm -rf /var/www/html/seocheckerhub.com/.github
+            rm -rf /var/www/html/seocheckerhub.com/.DS_Store
             sudo systemctl restart apache2
