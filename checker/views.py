@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlparse
 import requests
 from bs4 import BeautifulSoup
 from django.utils.translation import gettext as _
@@ -267,12 +267,28 @@ def seo_analysis(url):
 
 from urllib.parse import quote, unquote
 
+# Функция для стандартизации URL
+def normalize_url(url):
+    parsed_url = urlparse(url)
+    if not parsed_url.scheme:
+        # Если протокол отсутствует, добавляем "https://"
+        url = 'https://' + url
+    elif parsed_url.scheme not in ['http', 'https']:
+        return None  # Неподдерживаемый протокол
+    return url
+
 def index(request, url=None):
     if request.method == 'POST':
         url = request.POST.get('url')
         if url:
+            # Нормализуем URL перед кодированием
+            normalized_url = normalize_url(url)
+            if not normalized_url:
+                results = {'error': _('Invalid URL format.')}
+                return render(request, 'checker/index.html', {'results': results})
+
             # Кодируем URL и перенаправляем на новый путь
-            quoted_url = quote(url, safe=':/')
+            quoted_url = quote(normalized_url, safe=':/')
             return redirect('url_analysis', url=quoted_url)
         else:
             results = {'error': _('Please enter a URL.')}
@@ -286,9 +302,8 @@ def index(request, url=None):
 
     return render(request, 'checker/index.html')
 
-
 def url_analysis(request, url):
     # Декодируем URL и проводим анализ
-    decoded_url = requests.utils.unquote(url)
+    decoded_url = unquote(url)
     results = seo_analysis(decoded_url)
     return render(request, 'checker/index.html', {'results': results, 'analyzed_url': decoded_url})

@@ -30,6 +30,8 @@ CSRF_TRUSTED_ORIGINS = ['https://seocheckerhub.com']
 
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
