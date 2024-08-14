@@ -52,16 +52,17 @@
 
 
         
-        <form method="POST" class="flex justify-center mb-8">
-            {% csrf_token %}
-            <input type="text" name="url" id="url" required
-                   class="w-full p-3 text-lg border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
-                   placeholder="{% trans 'Enter URL' %}">
-            <button type="submit"
-                    class="bg-blue-500 text-white p-3 rounded-r text-lg hover:bg-blue-600 transition duration-200">
-                {% trans "Check" %}
-            </button>
-        </form>
+        <form method="POST" action="{% url 'index' %}" class="flex justify-center mb-8">
+    {% csrf_token %}
+    <input type="text" name="url" id="url" required
+           class="w-full p-3 text-lg border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
+           placeholder="{% trans 'Enter URL' %}">
+    <button type="submit"
+            class="bg-blue-500 text-white p-3 rounded-r text-lg hover:bg-blue-600 transition duration-200">
+        {% trans "Check" %}
+    </button>
+</form>
+
 
 {% if not results %}
 <div class="bg-white p-8 shadow rounded-lg">

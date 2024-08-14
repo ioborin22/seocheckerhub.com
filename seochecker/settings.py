@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rd63@h##k8wt!tbns1r=nuqc%#vy$$4&!uv+ja3r68#58ba!t4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['seocheckerhub.com', 'www.seocheckerhub.com']
 CSRF_TRUSTED_ORIGINS = ['https://seocheckerhub.com']
