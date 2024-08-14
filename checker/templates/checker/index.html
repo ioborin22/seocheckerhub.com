@@ -1,0 +1,393 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="{% static 'images/seocheckerhub.png' %}" type="image/x-icon">
+    <link rel="image_src" href="{% static 'images/seocheckerhub.png' %}">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon" sizes="76x76">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon" sizes="120x120">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon" sizes="152x152">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="canonical" href="https://www.seocheckerhub.com/"/>
+    <title>{% trans "SEO Checker HUB" %}</title>
+    <meta name="description" content="Analyze and improve your website's SEO with SEO Checker HUB. Get actionable insights to enhance your site's visibility and ranking in search engines.">
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="SEO Checker HUB | SEO Analysis and Optimization"/>
+    <meta property="og:description" content="Analyze and improve your website's SEO with SEO Checker HUB. Get actionable insights to enhance your site's visibility and ranking in search engines."/>
+    <meta property="og:url" content="https://www.seocheckerhub.com/"/>
+    <meta property="og:site_name" content="SEO Checker HUB"/>
+    <meta property="og:image" content="{% static 'images/og-image.png' %}"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:domain" content="seocheckerhub.com"/>
+    <meta name="twitter:title" content="SEO Checker HUB | SEO Analysis and Optimization"/>
+    <meta name="twitter:description" content="Analyze and improve your website's SEO with SEO Checker HUB. Get actionable insights to enhance your site's visibility and ranking in search engines."/>
+    <meta name="twitter:image" content="{% static 'images/og-image.png' %}"/>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        
+<div class="text-center mb-8">
+    <a href="/" class="inline-flex items-baseline">
+        <h1 class="text-4xl font-bold text-gray-800 mr-2">
+            <span class="text-green-600 hover:underline">{% trans "SEO" %}</span>
+            <span class="text-blue-600 hover:underline">{% trans "Checker" %}</span>
+        </h1>
+        <span class="font-extrabold text-5xl transform -rotate-12 transition-transform duration-300 ease-in-out hover:scale-110 " style="font-style: italic; color: #FB923C;">
+            HUB
+        </span>
+    </a>
+    
+</div>
+
+
+
+        
+        <form method="POST" class="flex justify-center mb-8">
+            {% csrf_token %}
+            <input type="text" name="url" id="url" required
+                   class="w-full p-3 text-lg border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="{% trans 'Enter URL' %}">
+            <button type="submit"
+                    class="bg-blue-500 text-white p-3 rounded-r text-lg hover:bg-blue-600 transition duration-200">
+                {% trans "Check" %}
+            </button>
+        </form>
+
+{% if not results %}
+<div class="bg-white p-8 shadow rounded-lg">
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}Welcome to the <strong>SEO Checker</strong>, your ultimate tool for analyzing and enhancing your website's search engine performance. Whether you're an experienced digital marketer or just getting started with SEO, our free SEO analysis tool is designed to help you achieve better visibility on search engines like Google, Bing, and Yahoo.{% endblocktrans %}
+    </p>
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{% trans "Why Use Our SEO Checker?" %}</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}In today’s digital world, having a strong online presence is crucial for any business. But how do you know if your website is performing at its best? That's where our <strong>SEO Checker</strong> comes in. Our tool provides a comprehensive <strong>SEO performance check</strong> that evaluates your website’s strengths and weaknesses, giving you a clear understanding of what needs improvement.{% endblocktrans %}
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}Our <strong>SEO analysis tool</strong> offers a detailed audit that covers all aspects of your website, from keyword optimization to backlink quality. With just a few clicks, you can generate a <strong>free SEO report</strong> that outlines your site’s SEO score, highlighting areas that need attention. This <strong>free SEO audit</strong> is essential for identifying the factors that may be holding your site back from reaching its full potential.{% endblocktrans %}
+    </p>
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{% trans "How Our SEO Checker Works" %}</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}Using our tool is simple. Just enter your website’s URL, and our SEO checker will instantly analyze your site’s key metrics. The results include a breakdown of your <strong>SEO score</strong>, which is calculated based on various factors like keyword usage, meta tags, page speed, and mobile-friendliness. We also check for any technical issues that could be affecting your site’s performance, such as broken links, duplicate content, or missing alt text for images.{% endblocktrans %}
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}In addition to the SEO score, our tool provides actionable insights that you can use to improve your site’s performance. Whether it's optimizing your content for better keywords, improving your site's loading speed, or fixing technical errors, our free SEO report will guide you every step of the way.{% endblocktrans %}
+    </p>
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{% trans "Benefits of Using Our SEO Performance Check" %}</h2>
+    <ul class="list-disc list-inside text-gray-700 mb-4">
+        <li><strong>{% trans "Comprehensive Analysis:" %}</strong> {% trans "Get a full overview of your website’s SEO health, including on-page and off-page factors." %}</li>
+        <li><strong>{% trans "User-Friendly Interface:" %}</strong> {% trans "Our tool is designed with ease of use in mind, making it accessible to both beginners and experts." %}</li>
+        <li><strong>{% trans "Instant Results:" %}</strong> {% trans "Receive your SEO analysis within seconds, allowing you to take immediate action." %}</li>
+        <li><strong>{% trans "Free SEO Audit:" %}</strong> {% trans "Conduct a complete audit of your website at no cost, with no hidden fees or subscriptions." %}</li>
+        <li><strong>{% trans "Detailed SEO Report:" %}</strong> {% trans "Obtain a comprehensive SEO report that provides clear, actionable recommendations for improving your site’s ranking." %}</li>
+    </ul>
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{% trans "Why SEO Matters" %}</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}Search engine optimization (SEO) is the process of improving your website’s visibility on search engines. A higher ranking on search engine results pages (SERPs) means more traffic, more leads, and ultimately, more sales. But SEO isn’t just about stuffing your site with keywords. It’s about creating valuable content, building high-quality backlinks, and ensuring a seamless user experience.{% endblocktrans %}
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+        {% blocktrans %}Our SEO Checker helps you achieve all this by providing the tools you need to analyze your website’s current performance and make informed decisions on how to improve it. With our SEO performance check, you can be confident that your website is on the right path to achieving better rankings and driving more organic traffic.{% endblocktrans %}
+    </p>
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{% trans "Get Started with SEO Checker Today" %}</h2>
+    <p class="text-gray-700 leading-relaxed">
+        {% blocktrans %}Don’t leave your website’s performance to chance. Use our <strong>SEO Checker</strong> to perform a <strong>free SEO audit</strong> and discover how you can enhance your site’s visibility on search engines. With our <strong>SEO score checker</strong>, you’ll get the insights you need to outshine your competition and reach a larger audience. Start your free SEO analysis now and take the first step towards a stronger online presence.{% endblocktrans %}
+    </p>
+</div>
+
+{% endif %}
+
+
+        {% if results %}
+            {% if results.error %}
+                <div class="text-red-500 text-center font-semibold mb-4">{{ results.error }}</div>
+            {% else %}
+                <!-- Content Optimization Section -->
+            <div class="bg-gray-200 p-6 rounded-t-lg">
+    <div class="flex items-center justify-between text-gray-700">
+
+        <div class="flex items-center">
+            <!-- Content Optimization icon -->
+            <svg class="w-6 h-6 text-gray-500 mr-2" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.41,0.01H4V9h2V2.01h10v6h6v14H4v2h20V5.6L18.41,0.01z M18,2.43l3.59,3.59H18V2.43z M21,18v2h-1h-1h-1v-8h2v6H21z M7,12 H6v2h1v6h2v-6h1v-2H9H7z M15,12l-1,1.61L13,12v0h-2v8h2v-4.21l1,1.61l1-1.61V20h2v-8L15,12L15,12z M3,15H2v-3H0v8h2v-3h1v3h2v-8H3 V15z"></path> </g></svg>
+            <h2 class="text-2xl font-semibold">{% trans "Content Optimization" %}</h2>
+        </div>
+
+        <div class="flex space-x-4">
+            <!-- Save to PDF icon -->
+<button class="focus:outline-none" onclick="saveToPDF()">
+    <svg class="w-6 h-6 text-gray-500 mr-2" fill="#000000" version="1.1" id="XMLID_38_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="document-pdf"> <g> <path d="M11,20H7v-8h4c1.6,0,3,1.5,3,3.2v1.6C14,18.5,12.6,20,11,20z M9,18h2c0.5,0,1-0.6,1-1.2v-1.6c0-0.6-0.5-1.2-1-1.2H9V18z M2,20H0v-8h3c1.7,0,3,1.3,3,3s-1.3,3-3,3H2V20z M2,16h1c0.6,0,1-0.4,1-1s-0.4-1-1-1H2V16z"></path> </g> <g> <rect x="15" y="12" width="6" height="2"></rect> </g> <g> <rect x="15" y="12" width="2" height="8"></rect> </g> <g> <rect x="15" y="16" width="5" height="2"></rect> </g> <g> <polygon points="24,24 4,24 4,22 22,22 22,6.4 17.6,2 6,2 6,9 4,9 4,0 18.4,0 24,5.6 "></polygon> </g> <g> <polygon points="23,8 16,8 16,2 18,2 18,6 23,6 "></polygon> </g> </g> </g></svg>
+</button>
+
+
+            <!-- Share icon -->
+            <button class="focus:outline-none">
+                <svg class="w-6 h-6 text-gray-500 mr-2" fill="#000000" height="200px" width="200px" version="1.1" id="Icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M24,24H4v-2h18V8h-6V2H6v8H4V0h14.4L24,5.6V24z M18,6h3.6L18,2.4V6z M6.9,19.3L9.2,17H0.6v-2h8.6l-2.3-2.3l1.4-1.4L13,16 l-4.7,4.7L6.9,19.3z"></path> </g></svg>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+                
+                <!-- Content area with white background -->
+                <div class="bg-white shadow-md p-6 rounded-b-lg">
+
+                    {% if analyzed_url %}
+    <div class="text-center text-gray-600 mb-8">
+        <p>{% trans "Analysis report for" %} <strong>{{ analyzed_url }}</strong></p>
+    </div>
+{% endif %}
+
+
+                    <!-- General Section -->
+                    <div class="mb-4">
+<!-- Status Code -->
+<details class="group">
+    <summary class="cursor-pointer p-0 m-0 list-none">
+        <div class="hover:bg-gray-100 transition-colors duration-200 rounded-lg border-b border-gray-300">
+            <div class="grid grid-cols-3 gap-4 p-2">
+                <h3 class="text-xl font-semibold">{{results.status_data.icon}} {% trans "Status Code" %}</h3>
+                <div class="col-span-2 text-gray-600 font-normal">{{ results.status_data.info }}</div>
+            </div>
+        </div>
+    </summary>
+    <div class="mt-4 bg-gray-100 p-4 rounded-lg border-l-4 border-gray-300">
+        {{ results.status_data.recommendation|safe }}
+    </div>
+</details>
+
+
+<!-- HTML Size -->
+<details class="group">
+    <summary class="cursor-pointer p-0 m-0 list-none">
+        <div class="hover:bg-gray-100 transition-colors duration-200 rounded-lg border-b border-gray-300">
+            <div class="grid grid-cols-3 gap-4 p-2 mt-4">
+                <h3 class="text-xl font-semibold">{{results.page_size_data.icon}} {% trans "HTML Size" %}</h3>
+                <div class="col-span-2 text-gray-600 font-normal">{{ results.page_size_data.size_display }}</div>
+            </div>
+        </div>
+    </summary>
+    <div class="mt-4 bg-gray-100 p-4 rounded-lg border-l-4 border-gray-300">
+        {{ results.page_size_data.recommendation|safe }}
+    </div>
+</details>
+
+
+<!-- Title Check Section -->
+<details class="group">
+    <summary class="cursor-pointer p-0 m-0 list-none">
+        <div class="hover:bg-gray-100 transition-colors duration-200 rounded-lg border-b border-gray-300">
+            <div class="grid grid-cols-3 gap-4 p-2 mt-4">
+                <h3 class="text-xl font-semibold">
+                    {{ results.title_data.is_title_valid_icon }}
+                    {% trans "Title Check" %}
+                </h3>
+                <div class="col-span-2 font-normal">
+                    <p>
+                        <strong>{{ results.title_data.title_display|safe }}</strong>
+                    </p>
+                    {% if results.title_data.is_title_exist %}
+                        <p class="text-sm text-gray-600">
+                            {{ results.title_data.icon }} {{ results.title_data.title_length|safe }}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </summary>
+    <div class="mt-4 bg-gray-100 p-4 rounded-lg border-l-4 border-gray-300">
+        {{ results.title_data.recommendation|safe }}
+    </div>
+</details>
+
+
+
+
+<!-- Description Check Section -->
+<details class="group">
+    <summary class="cursor-pointer p-0 m-0 list-none">
+        <div class="hover:bg-gray-100 transition-colors duration-200 rounded-lg border-b border-gray-300">
+            <div class="grid grid-cols-3 gap-4 p-2 mt-4">
+                <h3 class="text-xl font-semibold">
+                    {{ results.description_data.is_description_valid_icon }} {% trans "Description Check" %}
+                </h3>
+                <div class="col-span-2 font-normal">
+                    {% if results.description_data.is_description_exist %}
+                        <p>
+                            <strong>{{ results.description_data.description_display }}</strong>
+                        </p>
+                        <p class="text-sm text-gray-600">
+                            {{ results.description_data.icon }} {{ results.description_data.description_length|safe }}
+                        </p>
+                    {% else %}
+                        {{ results.description_data.description_display|safe }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </summary>
+    <div class="mt-4 bg-gray-100 p-4 rounded-lg border-l-4 border-gray-300">
+        {{ results.description_data.recommendation|safe }}
+    </div>
+</details>
+
+
+
+
+
+<!-- H1 Check Section -->
+<details class="group">
+    <summary class="cursor-pointer p-0 m-0 list-none">
+        <div class="hover:bg-gray-100 transition-colors duration-200 rounded-lg border-b border-gray-300">
+            <div class="grid grid-cols-3 gap-4 p-2 mt-4">
+                <h3 class="text-xl font-semibold">{{ results.h1_data.icon_h1_exists }} {% trans "H1 Check" %}</h3>
+                <div class="col-span-2 font-normal">
+                    {% if results.h1_data.is_h1_valid %}
+                        {% for h1_item in results.h1_data.h1_info %}
+                            <p>
+                                <strong>{{ h1_item.h1_text }}</strong>
+                                <span class="text-sm text-gray-600">({{ h1_item.h1_count_display }})</span>
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                {{ h1_item.icon_h1_length }} {{ h1_item.h1_length_display }}
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                {{ h1_item.icon_h1_match }} {{ h1_item.h1_match_display }}
+                            </p>
+                            {% if not forloop.last %}
+                                <hr class="my-2 border-gray-300">
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {{ results.h1_data.h1_display|safe }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </summary>
+    <div class="mt-4 bg-gray-100 p-4 rounded-lg border-l-4 border-gray-300">
+        {{ results.h1_data.recommendation|safe }}
+    </div>
+</details>
+
+
+
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    
+</body>
+</html>
+<script>
+function saveToPDF(reportText) {
+    const { jsPDF } = window.jspdf;
+
+    // Найдите элемент, который вы хотите захватить
+    const element = document.querySelector('.bg-white.shadow-md.p-6.rounded-b-lg');
+
+    // Используйте html2canvas для захвата изображения
+    html2canvas(element, { scale: 2 }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        
+        // Добавление шапки с доменом и кликабельной ссылкой на первую страницу
+        pdf.setFontSize(16);
+        pdf.text(reportText, 105, 10, { align: 'center' });
+
+        // Добавление кликабельной ссылки
+        pdf.setTextColor(0, 0, 255);
+        pdf.textWithLink('www.seocheckerhub.com', 105, 20, { align: 'center' }, { url: 'https://www.seocheckerhub.com' });
+
+        // Вычисляем размеры изображения для PDF
+        const imgWidth = 210; // ширина страницы A4 в мм
+        const pageHeight = 295; // высота страницы A4 в мм
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+
+        let position = 30; // Позиция после шапки
+
+        // Добавление изображения в PDF
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        // Если изображение больше одной страницы, добавляем новые страницы
+        while (heightLeft >= 0) {
+            pdf.addPage();
+            pdf.setFontSize(16);
+            pdf.text(reportText, 105, 10, { align: 'center' });
+            pdf.setTextColor(0, 0, 255);
+            pdf.textWithLink('www.seocheckerhub.com', 105, 20, { align: 'center' }, { url: 'https://www.seocheckerhub.com' });
+            position = heightLeft - imgHeight + 30;
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+
+        // Сохранение PDF
+        pdf.save('SEO_Checker_Report.pdf');
+    });
+}
+const reportText = "{% trans 'Report provided by SEO Hecker HUB' %}";
+
+    function saveToPDF() {
+        const { jsPDF } = window.jspdf;
+
+        // Найдите элемент, который вы хотите захватить
+        const element = document.querySelector('.bg-white.shadow-md.p-6.rounded-b-lg');
+
+        // Используйте html2canvas для захвата изображения
+        html2canvas(element, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            // Добавление шапки с доменом и кликабельной ссылкой на первую страницу
+            pdf.setFontSize(16);
+            pdf.text(reportText, 105, 10, { align: 'center' });
+
+            // Добавление кликабельной ссылки
+            pdf.setTextColor(0, 0, 255);
+            pdf.textWithLink('www.seocheckerhub.com', 105, 20, { align: 'center' }, { url: 'https://www.seocheckerhub.com' });
+
+            // Вычисляем размеры изображения для PDF
+            const imgWidth = 210; // ширина страницы A4 в мм
+            const pageHeight = 295; // высота страницы A4 в мм
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            let heightLeft = imgHeight;
+
+            let position = 30; // Позиция после шапки
+
+            // Добавление изображения в PDF
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            // Если изображение больше одной страницы, добавляем новые страницы
+            while (heightLeft >= 0) {
+                pdf.addPage();
+                pdf.setFontSize(16);
+                pdf.text(reportText, 105, 10, { align: 'center' });
+                pdf.setTextColor(0, 0, 255);
+                pdf.textWithLink('www.seocheckerhub.com', 105, 20, { align: 'center' }, { url: 'https://www.seocheckerhub.com' });
+                position = heightLeft - imgHeight + 30;
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            // Сохранение PDF
+            pdf.save('SEO_Checker_Report.pdf');
+        });
+    }
+</script>
