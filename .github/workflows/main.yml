@@ -1,0 +1,37 @@
+name: Deploy Django Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Sync Files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: 'root'
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: "."
+          target: "/var/www/html/seocheckerhub.com"
+          strip_components: 1
+
+      - name: Final Setup on Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: 'root'
+          password: ${{ secrets.SERVER_PASSWORD }}
+          command_timeout: 90m
+          script: |
+            cd /var/www/html/seocheckerhub.com
+            source venv/bin/activate
+            pip install -r requirements.txt
+            python manage.py collectstatic --noinput
+            sudo systemctl restart apache2
