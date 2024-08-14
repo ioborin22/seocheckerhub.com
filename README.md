@@ -39,6 +39,6 @@ python manage.py runserver
 
 ## Visit https://seocheckerhub.com in your browser to start using the application.
 
-License
-This project is licensed under the MIT License.
-Feel free to customize the content as needed.
+## License
+- This project is licensed under the MIT License.
+- Feel free to customize the content as needed.
