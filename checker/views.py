@@ -8,7 +8,6 @@ from django.utils.translation import gettext as _
 def normalize_url(url):
     parsed_url = urlparse(url)
     if not parsed_url.scheme:
-        # Если протокол отсутствует, добавляем "https://"
         url = 'https://' + url
     elif parsed_url.scheme not in ['http', 'https']:
         return None  # Неподдерживаемый протокол
@@ -277,7 +276,7 @@ def seo_analysis(url):
     }
 
 # Основная функция обработки запросов на индексную страницу
-def index(request, url=None):
+def index(request):
     if request.method == 'POST':
         url = request.POST.get('url')
         if url:
@@ -287,24 +286,22 @@ def index(request, url=None):
                 results = {'error': _('Invalid URL format.')}
                 return render(request, 'checker/index.html', {'results': results})
 
-            # Кодируем URL и перенаправляем на новый путь
+            # Кодируем URL и перенаправляем на новый путь с параметром запроса
             quoted_url = quote(normalized_url, safe=':/')
-            return redirect('url_analysis', url=quoted_url)
+            return redirect(f'/analyze?url={quoted_url}')
         else:
             results = {'error': _('Please enter a URL.')}
             return render(request, 'checker/index.html', {'results': results})
-    
-    elif url:
-        # Декодируем URL и выполняем анализ
-        decoded_url = unquote(url)
-        results = seo_analysis(decoded_url)
-        return render(request, 'checker/index.html', {'results': results, 'url': decoded_url})
 
     return render(request, 'checker/index.html')
 
 # Функция обработки запросов на анализ URL
-def url_analysis(request, url):
-    # Декодируем URL и проводим анализ
-    decoded_url = unquote(url)
-    results = seo_analysis(decoded_url)
-    return render(request, 'checker/index.html', {'results': results, 'analyzed_url': decoded_url})
+def url_analysis(request):
+    url = request.GET.get('url')
+    if url:
+        decoded_url = unquote(url)
+        results = seo_analysis(decoded_url)
+        return render(request, 'checker/index.html', {'results': results, 'analyzed_url': decoded_url})
+    else:
+        results = {'error': _('No URL provided for analysis.')}
+        return render(request, 'checker/index.html', {'results': results})
