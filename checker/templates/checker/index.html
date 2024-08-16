@@ -306,35 +306,35 @@
 function saveToPDF(reportText) {
     const { jsPDF } = window.jspdf;
 
-    // Найдите элемент, который вы хотите захватить
+    
     const element = document.querySelector('.bg-white.shadow-md.p-6.rounded-b-lg');
 
-    // Используйте html2canvas для захвата изображения
+    
     html2canvas(element, { scale: 2 }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
         
-        // Добавление шапки с доменом и кликабельной ссылкой на первую страницу
+        
         pdf.setFontSize(16);
         pdf.text(reportText, 105, 10, { align: 'center' });
 
-        // Добавление кликабельной ссылки
+        
         pdf.setTextColor(0, 0, 255);
         pdf.textWithLink('www.seocheckerhub.com', 105, 20, { align: 'center' }, { url: 'https://www.seocheckerhub.com' });
 
-        // Вычисляем размеры изображения для PDF
-        const imgWidth = 210; // ширина страницы A4 в мм
-        const pageHeight = 295; // высота страницы A4 в мм
+       
+        const imgWidth = 210;
+        const pageHeight = 295;
         const imgHeight = canvas.height * imgWidth / canvas.width;
         let heightLeft = imgHeight;
 
-        let position = 30; // Позиция после шапки
+        let position = 30;
 
-        // Добавление изображения в PDF
+        
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
 
-        // Если изображение больше одной страницы, добавляем новые страницы
+        
         while (heightLeft >= 0) {
             pdf.addPage();
             pdf.setFontSize(16);
@@ -346,7 +346,7 @@ function saveToPDF(reportText) {
             heightLeft -= pageHeight;
         }
 
-        // Сохранение PDF
+        
         pdf.save('SEO_Checker_Report.pdf');
     });
 }
@@ -355,35 +355,34 @@ const reportText = "{% trans 'Report provided by SEO Hecker HUB' %}";
     function saveToPDF() {
         const { jsPDF } = window.jspdf;
 
-        // Найдите элемент, который вы хотите захватить
+        
         const element = document.querySelector('.bg-white.shadow-md.p-6.rounded-b-lg');
 
-        // Используйте html2canvas для захвата изображения
+        
         html2canvas(element, { scale: 2 }).then(canvas => {
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
             
-            // Добавление шапки с доменом и кликабельной ссылкой на первую страницу
+            
             pdf.setFontSize(16);
             pdf.text(reportText, 105, 10, { align: 'center' });
 
-            // Добавление кликабельной ссылки
+            
             pdf.setTextColor(0, 0, 255);
             pdf.textWithLink('www.seocheckerhub.com', 105, 20, { align: 'center' }, { url: 'https://www.seocheckerhub.com' });
 
-            // Вычисляем размеры изображения для PDF
-            const imgWidth = 210; // ширина страницы A4 в мм
-            const pageHeight = 295; // высота страницы A4 в мм
+            
+            const imgWidth = 210;
+            const pageHeight = 295;
             const imgHeight = canvas.height * imgWidth / canvas.width;
             let heightLeft = imgHeight;
 
-            let position = 30; // Позиция после шапки
+            let position = 30;
 
-            // Добавление изображения в PDF
+            
             pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
 
-            // Если изображение больше одной страницы, добавляем новые страницы
             while (heightLeft >= 0) {
                 pdf.addPage();
                 pdf.setFontSize(16);
@@ -395,7 +394,6 @@ const reportText = "{% trans 'Report provided by SEO Hecker HUB' %}";
                 heightLeft -= pageHeight;
             }
 
-            // Сохранение PDF
             pdf.save('SEO_Checker_Report.pdf');
         });
     }
