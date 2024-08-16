@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +27,9 @@ SECRET_KEY = 'django-insecure-rd63@h##k8wt!tbns1r=nuqc%#vy$$4&!uv+ja3r68#58ba!t4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['seocheckerhub.com', 'www.seocheckerhub.com']
 CSRF_TRUSTED_ORIGINS = ['https://seocheckerhub.com']
 
-
+ALLOWED_HOSTS = ['seocheckerhub.com', 'www.seocheckerhub.com']
 
 
 
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'seochecker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

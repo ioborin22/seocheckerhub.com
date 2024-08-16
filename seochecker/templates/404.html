@@ -1,0 +1,42 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="{% static 'images/seocheckerhub.png' %}" type="image/x-icon">
+    <link rel="image_src" href="{% static 'images/seocheckerhub.png' %}">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon" sizes="76x76">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon" sizes="120x120">
+    <link href="{% static 'images/seocheckerhub.png' %}" rel="apple-touch-icon" sizes="152x152">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="canonical" href="https://www.seocheckerhub.com/"/>
+    <title>{% trans "Page Not Found - SEO Checker HUB" %}</title>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div class="container mx-auto px-4 py-8 max-w-6xl text-center">
+        <div class="mb-8">
+            <a href="/" class="inline-flex items-baseline">
+                <h1 class="text-4xl font-bold text-gray-800 mr-2">
+                    <span class="text-green-600 hover:underline">{% trans "SEO" %}</span>
+                    <span class="text-blue-600 hover:underline">{% trans "Checker" %}</span>
+                </h1>
+                <span class="font-extrabold text-5xl transform -rotate-12 transition-transform duration-300 ease-in-out hover:scale-110" style="font-style: italic; color: #FB923C;">
+                    HUB
+                </span>
+            </a>
+        </div>
+
+        <div class="bg-white p-8 shadow rounded-lg">
+            <h2 class="text-5xl font-bold text-red-500 mb-4">{% trans "404" %}</h2>
+            <p class="text-xl text-gray-700 mb-6">{% trans "Sorry, the page you are looking for does not exist." %}</p>
+            <a href="/" class="bg-blue-500 text-white p-3 rounded-lg text-lg hover:bg-blue-600 transition duration-200">{% trans "Go Back Home" %}</a>
+        </div>
+    </div>
+</body>
+</html>
